@@ -29,6 +29,12 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    // Rest
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    // Json Converter
+    compile 'com.squareup.moshi:moshi:1.4.0'
+    compile 'com.squareup.retrofit2:converter-moshi:2.2.0'
 }
 repositories {
     mavenCentral()
