@@ -19,7 +19,7 @@ open class Server(val baseUrl: String, val client: OkHttpClient?) {
      * This method returns initialized object of a speficied service's class.
      * Initialization takes place behind the scene.
      */
-    fun <T> getService(serviceClass: Class<T>): T {
+    open fun <T> getService(serviceClass: Class<T>): T {
         return retrofit?.create(serviceClass)!!
     }
 }

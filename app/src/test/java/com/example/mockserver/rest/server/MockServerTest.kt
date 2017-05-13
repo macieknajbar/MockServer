@@ -19,4 +19,17 @@ class MockServerTest {
         val response = server?.getService(GitHubService::class.java)?.listRepos("!!!")?.execute()
         Assert.assertEquals(200, response?.code())
     }
+
+    @Test fun `can rewrite response`() {
+        server?.rewriteResponse("users/!!!/repos", 404, "null")
+        val response = server?.getService(GitHubService::class.java)?.listRepos("!!!")?.execute()
+        Assert.assertEquals(404, response?.code())
+    }
+
+    @Test fun `overrides response for the same request`() {
+        server?.rewriteResponse("users/!!!/repos", 404, "null")
+        server?.rewriteResponse("users/!!!/repos", 500, "{message: \"internal error\"}")
+        val response = server?.getService(GitHubService::class.java)?.listRepos("!!!")?.execute()
+        Assert.assertEquals(500, response?.code())
+    }
 }
