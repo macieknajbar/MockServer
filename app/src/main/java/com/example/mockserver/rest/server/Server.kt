@@ -8,8 +8,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  * Wrapping class for our Retrofit's object. This class gives us more control with less effort over
  * 3rd party library.
  */
-class Server(val baseUrl: String, val client: OkHttpClient?) {
-    private var retrofit: Retrofit? = Retrofit.Builder()
+open class Server(val baseUrl: String, val client: OkHttpClient?) {
+    protected var retrofit: Retrofit? = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create().asLenient())
