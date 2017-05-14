@@ -1,17 +1,17 @@
 package com.example.mockserver.rest.server
 
 import okhttp3.*
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
  * The idea of Mock Server is to return fake responses that will satisfy our needs.
  * Tests should rely on server that returns always the same response, regardless internet connection,
  * or server maintanance.
  */
-class MockServer(baseUrl: String) : Server(baseUrl, OkHttpClient()) {
+class MockServer(val baseUrl: String) {
 
     private val interceptors: MutableMap<String, Interceptor> = mutableMapOf()
+
+    private var server: Server? = null
 
     init {
         recreate()
@@ -28,20 +28,16 @@ class MockServer(baseUrl: String) : Server(baseUrl, OkHttpClient()) {
                 .addInterceptor { chain -> Response.Builder().protocol(Protocol.HTTP_1_0).request(chain.request()).code(200).body(ResponseBody.create(MediaType.parse(""), "null")).build() }
                 .build()
 
-        retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(MoshiConverterFactory.create().withNullSerialization())
-                .client(restClient)
-                .build()
+        server = Server(baseUrl, restClient)
     }
 
     fun rewriteResponse(request: String, responseCode: Int, responseBody: String) {
         interceptors.put(request, RewriteResponseInterceptor(request, responseCode, responseBody))
     }
 
-    override fun <T> getService(serviceClass: Class<T>): T {
+    fun <T> getService(serviceClass: Class<T>): T {
         recreate()
-        return super.getService(serviceClass)
+        return server!!.getService(serviceClass)
     }
 }
 
