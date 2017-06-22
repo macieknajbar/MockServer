@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/row_repo_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        tools:text="Mock Server"/>
+
+    <TextView
+        android:id="@+id/row_repo_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:textSize="16sp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        tools:text="id: 1"/>
+
+    <TextView
+        android:id="@+id/row_repo_stars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_rowSpan="2"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:textSize="32sp"
+        tools:text="7"/>
+
+</GridLayout>
