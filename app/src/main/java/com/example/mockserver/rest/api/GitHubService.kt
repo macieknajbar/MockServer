@@ -1,6 +1,6 @@
 package com.example.mockserver.rest.api
 
-import com.example.mockserver.rest.dto.Repo
+import com.example.mockserver.rest.dto.RepoDTO
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,5 +18,5 @@ interface GitHubService {
      * @return List of specified users repositories.
      */
     @GET("users/{user}/repos")
-    fun listRepos(@Path("user") user: String): Call<List<Repo>>
+    fun listRepos(@Path("user") user: String): Call<List<RepoDTO>>
 }

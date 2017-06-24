@@ -1,41 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/row_repo_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="0"
         android:textStyle="bold"
         android:textSize="16sp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Mock Server"/>
 
     <TextView
         android:id="@+id/row_repo_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_row="1"
-        android:layout_column="0"
         android:textSize="16sp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row_repo_name"
         tools:text="id: 1"/>
 
     <TextView
         android:id="@+id/row_repo_stars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_rowSpan="2"
-        android:layout_row="0"
-        android:layout_column="1"
         android:textSize="32sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/row_repo_star_icon"
+        app:layout_constraintTop_toTopOf="@id/row_repo_name"
+        app:layout_constraintBottom_toBottomOf="@id/row_repo_stars"
         tools:text="7"/>
 
-</GridLayout>
+    <ImageView
+        android:id="@id/row_repo_star_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/star_big_on"
+        android:contentDescription="@string/star"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/row_repo_name"
+        app:layout_constraintBottom_toBottomOf="@id/row_repo_stars"/>
+</android.support.constraint.ConstraintLayout>

@@ -2,22 +2,22 @@ package com.example.mockserver
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import android.widget.ListView
-import android.widget.SimpleAdapter
-import android.widget.SimpleCursorAdapter
+import com.example.mockserver.controllers.ProjectListAdapter
 import com.example.mockserver.rest.ServerInjector
 import com.example.mockserver.rest.api.GitHubService
-import com.example.mockserver.rest.dto.Repo
-import com.example.mockserver.rest.server.MockServer
+import com.example.mockserver.rest.dto.RepoDTO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity(),
-        Callback<List<Repo>> {
+        Callback<List<RepoDTO>> {
+
+    private lateinit var projectListView: RecyclerView
 
     private val server = ServerInjector.server()
 
@@ -25,21 +25,20 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        projectListView = findViewById(R.id.project_list) as RecyclerView
+        projectListView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
         val gitHubService = server.getService(GitHubService::class.java)
         gitHubService.listRepos("octocat").enqueue(this)
-
     }
 
-    override fun onResponse(call: Call<List<Repo>>?, response: Response<List<Repo>>?) {
+    override fun onResponse(call: Call<List<RepoDTO>>?, response: Response<List<RepoDTO>>?) {
         findViewById(R.id.progress_bar).visibility = View.GONE
-        val projectList = findViewById(R.id.project_list) as ListView
 
-        for (repo in response!!.body()) {
-            Log.d("MainActivity", "id: " + repo.id + ", name: " + repo.name + ", stars: " + repo.stargazers_count)
-        }
+        projectListView.adapter = ProjectListAdapter(response!!.body())
     }
 
-    override fun onFailure(call: Call<List<Repo>>?, t: Throwable?) {
+    override fun onFailure(call: Call<List<RepoDTO>>?, t: Throwable?) {
         Log.e("MainActivity", "Something went wrong!", t)
     }
 }

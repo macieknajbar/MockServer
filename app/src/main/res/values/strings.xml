@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MockServer</string>
+    <string name="star">star</string>
 </resources>

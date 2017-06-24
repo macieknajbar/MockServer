@@ -3,7 +3,6 @@ package com.example.mockserver.rest.server
 import com.example.mockserver.rest.api.GitHubService
 import okhttp3.OkHttpClient
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 
 class ServerTest {
