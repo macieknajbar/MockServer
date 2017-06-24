@@ -11,6 +11,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.not;
 
 public class MainActivityTest_Java {
 
@@ -29,5 +30,28 @@ public class MainActivityTest_Java {
         // Among the projects Betty found the project that she was interested in named "Mock server"
         onView(withText(MOCK_SERVER))
                 .check(matches(isDisplayed()));
+    }
+
+    @Test public void bearingInMindTheSlowInternetProgressBarIsDisplayedBeforeTheListShowsUp() {
+        // Betty opens the application with slow internet connection
+        activity.launchActivity(new Intent());
+
+        // And sees a progress bar indicating lazy loading data from server
+        onView(withId(R.id.progress_bar))
+                .check(matches(isDisplayed()));
+
+        // Boom! Progress bar disappeared and a list showed up
+        // FIXME: wait until list is displayed - consider idling resources
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // When the list shows up, she can't see the progress bar anymore
+        onView(withId(R.id.project_list))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.progress_bar))
+                .check(matches(not(isDisplayed())));
     }
 }
