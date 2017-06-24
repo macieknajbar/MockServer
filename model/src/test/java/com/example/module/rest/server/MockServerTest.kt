@@ -1,12 +1,15 @@
-package com.example.mockserver.rest.server
+package com.example.module.rest.server
 
-import com.example.mockserver.rest.api.GitHubService
+import com.example.module.rest.api.GitHubService
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Call
 import retrofit2.http.GET
 
+/**
+ * Created by maciejnajbar on 24.06.2017.
+ */
 class MockServerTest {
 
     private val BASE_URL: String = "http://sh.it"
@@ -39,7 +42,7 @@ class MockServerTest {
         server?.rewriteResponse("something/", 404, "null")
         server?.rewriteResponse("users/!!!/repos", 200, reposFakeResponse)
 
-        val something = server?.getService(SomeAPI::class.java)?.something()?.execute()!!
+        val something = server?.getService(MockServerTest.SomeAPI::class.java)?.something()?.execute()!!
         val repos = server?.getService(GitHubService::class.java)?.listRepos("!!!")?.execute()!!
 
         Assert.assertEquals(404, something.code())

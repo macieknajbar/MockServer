@@ -1,4 +1,4 @@
-package com.example.mockserver.rest.server
+package com.example.module.rest.server
 
 import okhttp3.*
 import retrofit2.Retrofit

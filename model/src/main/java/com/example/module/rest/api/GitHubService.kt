@@ -1,6 +1,6 @@
-package com.example.mockserver.rest.api
+package com.example.module.rest.api
 
-import com.example.mockserver.rest.dto.Repo
+import com.example.module.rest.dto.Repo
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

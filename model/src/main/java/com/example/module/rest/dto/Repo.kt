@@ -1,4 +1,4 @@
-package com.example.mockserver.rest.dto
+package com.example.module.rest.dto
 
 /**
  * Repository Data Transfer Object.

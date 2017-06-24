@@ -1,6 +1,6 @@
-package com.example.mockserver.rest
+package com.example.module.rest
 
-import com.example.mockserver.rest.server.Server
+import com.example.module.rest.server.Server
 
 /**
  * This is where mock server instance is being kept.

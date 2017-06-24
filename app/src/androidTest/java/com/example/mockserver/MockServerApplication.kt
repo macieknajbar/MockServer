@@ -1,8 +1,8 @@
 package com.example.mockserver
 
 import android.app.Application
-import com.example.mockserver.rest.ServerInjector
-import com.example.mockserver.rest.server.MockServer
+import com.example.module.rest.ServerInjector
+import com.example.module.rest.server.MockServer
 import java.io.InputStreamReader
 
 /**
