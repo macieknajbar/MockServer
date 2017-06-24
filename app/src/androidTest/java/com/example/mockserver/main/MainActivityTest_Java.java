@@ -1,14 +1,16 @@
-package com.example.mockserver;
+package com.example.mockserver.main;
 
 import android.content.Intent;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
+
+import com.example.mockserver.R;
+import com.example.mockserver.main.MainActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -27,7 +29,7 @@ public class MainActivityTest_Java {
         activity.launchActivity(new Intent());
 
         // And sees a progress bar indicating lazy loading data from server
-        onView(withId(R.id.progress_bar))
+        onView(ViewMatchers.withId(R.id.progress_bar))
                 .check(matches(isDisplayed()));
 
         // Boom! Progress bar disappeared and a list showed up

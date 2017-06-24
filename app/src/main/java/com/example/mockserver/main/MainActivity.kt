@@ -1,20 +1,17 @@
-package com.example.mockserver
+package com.example.mockserver.main
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.ListView
-import android.widget.SimpleAdapter
-import android.widget.SimpleCursorAdapter
+import com.example.mockserver.R
 import com.example.mockserver.rest.ServerInjector
 import com.example.mockserver.rest.api.GitHubService
 import com.example.mockserver.rest.dto.Repo
-import com.example.mockserver.rest.server.MockServer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity(),
         Callback<List<Repo>> {
