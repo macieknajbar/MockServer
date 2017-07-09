@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import com.example.mockserver.controllers.ProjectListAdapter
 import com.example.mockserver.rest.ServerInjector
 import com.example.mockserver.rest.api.GitHubService
@@ -35,10 +37,17 @@ class MainActivity : AppCompatActivity(),
     override fun onResponse(call: Call<List<RepoDTO>>?, response: Response<List<RepoDTO>>?) {
         findViewById(R.id.progress_bar).visibility = View.GONE
 
-        projectListView.adapter = ProjectListAdapter(response!!.body())
+        if (response!!.isSuccessful) {
+            projectListView.adapter = ProjectListAdapter(response.body())
+        } else {
+            onFailure(call, null)
+        }
     }
 
     override fun onFailure(call: Call<List<RepoDTO>>?, t: Throwable?) {
-        Log.e("MainActivity", "Something went wrong!", t)
+        val infoBox = findViewById(R.id.info_box) as TextView
+        infoBox.visibility = View.VISIBLE
+        infoBox.text = getString(R.string.general_error_text)
+        infoBox.setBackgroundColor(resources.getColor(android.R.color.holo_red_light))
     }
 }

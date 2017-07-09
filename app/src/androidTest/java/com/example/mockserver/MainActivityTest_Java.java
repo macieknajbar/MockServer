@@ -3,23 +3,37 @@ package com.example.mockserver;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 
+import com.example.mockserver.responses.Repos;
+import com.example.mockserver.rest.ServerInjector;
+import com.example.mockserver.rest.server.MockServer;
+
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.not;
 
 public class MainActivityTest_Java {
 
-    @Rule public ActivityTestRule<MainActivity> activity = new ActivityTestRule<>(MainActivity.class);
+    @Rule public ActivityTestRule<MainActivity> activity = new ActivityTestRule<>(MainActivity.class, false, false);
 
     private final String MOCK_SERVER = "Mock Server";
 
-    @Test public void seesListOfProjectsAndOneSpecificThatSheWasSearchingFor() {
+    private MockServer mockServer;
+
+    @Before public void setUp() {
+        mockServer = (MockServer) ServerInjector.INSTANCE.server();
+    }
+
+    @Test public void seesListOfProjectsAndOneSpecificThatSheWasSearchingFor() throws InterruptedException, IOException {
+        mockServer.rewriteResponse("users/octocat/repos", 200, Repos.INSTANCE.listOfRepos());
+
         // Betty opens application
         activity.launchActivity(new Intent());
 
@@ -32,26 +46,14 @@ public class MainActivityTest_Java {
                 .check(matches(isDisplayed()));
     }
 
-    @Test public void bearingInMindTheSlowInternetProgressBarIsDisplayedBeforeTheListShowsUp() {
-        // Betty opens the application with slow internet connection
+    @Test public void displaysErrorToUserOnServerError() {
+        mockServer.rewriteResponse("users/octocat/repos", 404, "");
+
+        // Bety opens the application
         activity.launchActivity(new Intent());
 
-        // And sees a progress bar indicating lazy loading data from server
-        onView(withId(R.id.progress_bar))
+        // An error occurs and application shows a message "Oops.. Something went wrong"
+        onView(withText("Oops.. Something went wrong"))
                 .check(matches(isDisplayed()));
-
-        // Boom! Progress bar disappeared and a list showed up
-        // FIXME: wait until list is displayed - consider idling resources
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // When the list shows up, she can't see the progress bar anymore
-        onView(withId(R.id.project_list))
-                .check(matches(isDisplayed()));
-        onView(withId(R.id.progress_bar))
-                .check(matches(not(isDisplayed())));
     }
 }
